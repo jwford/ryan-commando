@@ -2,8 +2,8 @@ const { Command } = require('discord.js-commando');
 const RichEmbed = require('discord.js').RichEmbed;
 
 module.exports = class SortMeCommand extends Command {
-  constructor(stevebot) {
-    super(stevebot, {
+  constructor(client) {
+    super(client, {
       name: 'sortme',
       group: 'hogwartaria',
       memberName: 'sortme',
