@@ -11,11 +11,7 @@ module.exports = class ShirtCommand extends Command {
       guildOnly: true
     });
   }
-var responses = [
-"Wishing I was as cool as Kyle", 
-"*wakes up* ..wha? KYLE WAS HERE? IS HE HERE NOW?! Oh ok back to sleep.",
-"One day, Some day, I will beeeeeee as cool as Kyle.",
-]
+
   run(msg) {
     var responses = [
     "Wishing I was as cool as Kyle", 
