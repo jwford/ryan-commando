@@ -42,6 +42,9 @@ module.exports = class RollCommand extends Command {
     }
 
     let roll = Math.floor(Math.random() * sides) + 1;
+    if (roll === 1000) {
+      roll = Math.floor(Math.random() * sides) + 1;
+    }
 
     const embed = new RichEmbed()
     .setColor(0x2913ef)
