@@ -1,5 +1,5 @@
 const { Command } = require('discord.js-commando');
-const responses = require('../../data.json');
+const responses = require('../../data.json').ryan_responses;
 
 module.exports = class HiRyanCommnd extends Command {
   constructor(client) {
