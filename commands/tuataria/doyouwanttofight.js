@@ -5,7 +5,7 @@ module.exports = class DoYouWantToFightCommand extends Command {
     super(client, {
       name: 'doyouwanttofight',
       group: 'tuataria',
-      memberNmae: 'doyouwanttofight',
+      memberName: 'doyouwanttofight',
       description: 'self explanatory'
     });
   }
