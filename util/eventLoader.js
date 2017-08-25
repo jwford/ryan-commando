@@ -6,6 +6,8 @@ module.exports = ryanbot => {
   ryanbot.on('groupStatusChange', reqEvent('groupStatusChange'));
   ryanbot.on('guildCreate', reqEvent('guildCreate'));
   ryanbot.on('guildDelete', reqEvent('guildDelete'));
+  ryanbot.on('message', reqEvent('message'));
+  ryanbot.on('messageUpdate', reqEvent('messageUpdate'));
   ryanbot.on('ready', () => reqEvent('ready')(ryanbot));
   ryanbot.on('reconnecting', () => reqEvent('reconnecting')(ryanbot));
   ryanbot.on('unknownCommand', reqEvent('unknownCommand'));

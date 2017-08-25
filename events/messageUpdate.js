@@ -17,7 +17,7 @@ module.exports = (oldMsg, newMsg) => {
   }
 
   //default reactions
-  var defaultReactions = [/check pins/i, /check the pins/i, /spacex/i, /batter /i];
+  var defaultReactions = [/check pins/i, /check the pins/i, /spacex/i, /batter /i, /hi ryan/i];
   for (let r = 0; r < defaultReactions.length; r++) {
     let react = defaultReactions[r];
     if (react.test(newMsg.content)) {
