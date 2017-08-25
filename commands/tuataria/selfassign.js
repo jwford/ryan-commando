@@ -13,7 +13,7 @@ module.exports = class SelfAssignCommand extends Command {
   }
 
   run(msg) {
-    if (msg.content.slice(1) === 'notisquad' || msg.content.slice(1) === 'notificationsquad') {
+    if (msg.content.slice(2) === 'notisquad' || msg.content.slice(2) === 'notificationsquad') {
       var bingbongbunch = msg.guild.roles.find('name', 'Notification Squad');
       if (!bingbongbunch) return msg.reply('Whoops, I can\'t seem to find that role.');
 

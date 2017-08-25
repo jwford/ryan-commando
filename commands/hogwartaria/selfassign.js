@@ -17,7 +17,7 @@ module.exports = class SelfAssignCommand extends Command {
     if (msg.guild.id !== '311165518080114688') return msg.delete();
 
     //get role from alias
-    var house = msg.content.slice(1);
+    var house = msg.content.slice(2);
     if (house === 'hornedserpent') {
       house = 'Horned Serpent';
     } else if (house === 'selfcarebunny') {
