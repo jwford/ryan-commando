@@ -48,7 +48,7 @@ module.exports = class SelfAssignCommand extends Command {
           }
         }
 
-        if (currentTimezone.name === currentTimezone.name) return msg.reply('why are you trying to make me do work for no reason? :frowning:');
+        if (currentTimezone.name === newTimezone.name) return msg.reply('why are you trying to make me do work for no reason? :frowning:');
         msg.member.removeRole(currentTimezone);
         msg.member.addRole(newTimezone);
         msg.channel.send(`You changed your timezone from ${currentTimezone.name} to ${newTimezone.name}!`);
