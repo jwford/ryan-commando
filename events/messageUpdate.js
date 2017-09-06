@@ -1,28 +1,23 @@
-const data = require('../data.json');
+const reacts = require('../data.json').reacts;
 
 module.exports = (oldMsg, newMsg) => {
   if (newMsg.channel.id === '342112503746265100') return; //stop auto-reacts in rinfo
-  //custom reactions
-  var customReactions = [/dftba/i, /thank you steve/i, /thanks steve/i, /thank ya steve/i, /no edge/i, /brain soup/i, /french the llama/i, /mongols/i, /tuatara /i, /all the way down/i];
-  for (let r = 0; r < customReactions.length; r++) {
-    let react = customReactions[r];
-    if (react.test(newMsg.content)) {
-      react = react.toString().slice(1, -2);
-      if (newMsg.guild.emojis.find('name', data.reacts[react])) {
-        newMsg.react(newMsg.guild.emojis.find('name', data.reacts[react]));
-      } else {
-        console.log(`${data.reacts[react]} doesn\'t exist in ${newMsg.guild.name}.`);
-      }
-    }
-  }
 
-  //default reactions
-  var defaultReactions = [/check pins/i, /check the pins/i, /spacex/i, /batter /i, /hi ryan/i];
-  for (let r = 0; r < defaultReactions.length; r++) {
-    let react = defaultReactions[r];
-    if (react.test(newMsg.content)) {
-      react = react.toString().slice(1, -2);
-      newMsg.react(data.reacts[react]);
+  for (let phrase in reacts) {
+    var emojiRegex = /(?:[\u2700-\u27bf]|(?:\ud83c[\udde6-\uddff]){2}|[\ud800-\udbff][\udc00-\udfff]|[\u0023-\u0039]\ufe0f?\u20e3|\u3299|\u3297|\u303d|\u3030|\u24c2|\ud83c[\udd70-\udd71]|\ud83c[\udd7e-\udd7f]|\ud83c\udd8e|\ud83c[\udd91-\udd9a]|\ud83c[\udde6-\uddff]|[\ud83c[\ude01-\ude02]|\ud83c\ude1a|\ud83c\ude2f|[\ud83c[\ude32-\ude3a]|[\ud83c[\ude50-\ude51]|\u203c|\u2049|[\u25aa-\u25ab]|\u25b6|\u25c0|[\u25fb-\u25fe]|\u00a9|\u00ae|\u2122|\u2139|\ud83c\udc04|[\u2600-\u26FF]|\u2b05|\u2b06|\u2b07|\u2b1b|\u2b1c|\u2b50|\u2b55|\u231a|\u231b|\u2328|\u23cf|[\u23e9-\u23f3]|[\u23f8-\u23fa]|\ud83c\udccf|\u2934|\u2935|[\u2190-\u21ff])/g;
+
+    let phraseRegex = new RegExp(phrase, 'i');
+
+    if (phraseRegex.test(newMsg.content)) {
+      let react = reacts[phrase];
+
+      if (emojiRegex.test(react)) {
+        newMsg.react(react);
+      } else {
+        react = newMsg.guild.emojis.find('name', react);
+        if (!react) return;
+        newMsg.react(react);
+      }
     }
   }
 };
