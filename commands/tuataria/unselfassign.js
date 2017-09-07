@@ -15,7 +15,7 @@ module.exports = class UnSelfAssignCommand extends Command {
   run(msg) {
     if (msg.guild.id !== '273689397675687940') return msg.delete();
 
-    let role = msg.contet.slice(2);
+    let role = msg.content.slice(2);
     if (role === 'tuaunselfassign') return msg.reply('look at you being fancy and spying on my git repo.');
 
     //notification squad
