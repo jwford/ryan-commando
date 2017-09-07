@@ -5,7 +5,7 @@ module.exports = class SelfAssignCommand extends Command {
     super(client, {
       name: 'tuaselfassign',
       aliases: ['notificationsquad', 'notisquad', 'gmt-11', 'gmt-10', 'gmt-9', 'gmt-8', 'gmt-7', 'gmt-6', 'gmt-5', 'gmt-4', 'gmt-3', 'gmt-2:30', 'gmt-2', 'gmt-1', 'gmt', 'gmt', 'gmt+1', 'gmt+2', 'gmt+3',
-        'gmt+4', 'gmt+5', 'gmt+5:30', 'gmt+6', 'gmt+7', 'gmt+8', 'gmt+9', 'gmt+9:30', 'gmt+10', 'gmt+11', 'gmt+12', 'gmt+13', 'gmt+14', 'gmt-less'],
+        'gmt+4', 'gmt+5', 'gmt+5:30', 'gmt+6', 'gmt+7', 'gmt+8', 'gmt+9', 'gmt+9:30', 'gmt+10', 'gmt+11', 'gmt+12', 'gmt+13', 'gmt+14', 'gmt-less', 'huntsquad'],
       group: 'tuataria',
       memberName: 'selfassign',
       description: 'Self-assign command for Tuataria',
@@ -14,16 +14,31 @@ module.exports = class SelfAssignCommand extends Command {
   }
 
   async run(msg) {
+    if (msg.guild.id !== '273689397675687940') return msg.delete();
+
     let role = msg.content.slice(2);
+    if (role === 'tuaselfassign') return msg.reply('have you been spying on my git repo?!');
+
     //notification squad
     if (role === 'notisquad' || role === 'notificationsquad') {
-      var bingbongbunch = msg.guild.roles.find('name', 'Notification Squad');
+      let bingbongbunch = msg.guild.roles.find('id', '323972051176128512');
       if (!bingbongbunch) return msg.reply('Whoops, I can\'t seem to find that role.');
 
-      if (msg.member.roles.exists('name', 'Notification Squad')) return msg.reply('You\'re already in the Notification Squad!');
+      if (!msg.member.roles.exists('name', 'Notification Squad')) {
+        msg.member.addRole(bingbongbunch);
+        msg.channel.send(`Welcome to the Notifcation Squad, ${msg.member.displayName}!`);
+      } else return msg.reply('you\'re already in the Notification Squad!');
+    }
 
-      msg.member.addRole(bingbongbunch);
-      msg.channel.send(`Welcome to the Notification Squad, ${msg.member.displayName}!`);
+    //hunt squad
+    if (role === 'huntsquad') {
+      let huntsquad = msg.guild.roles.find('id', '355407537702436867');
+      if (!huntsquad) return msg.reply('somebody messed up somewhere because I can\'t find the Hunt Squad role.');
+
+      if (!msg.member.roles.exists('name', 'Hunt Squad')) {
+        msg.member.addRole(huntsquad);
+        msg.channel.send(`Welcome to the Hunt Squad, ${msg.member.displayName}`);
+      } else return msg.reply('you\'re already in the Hunt Squad!');
     }
 
     //timezones
