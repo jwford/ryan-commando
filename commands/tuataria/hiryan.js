@@ -17,6 +17,7 @@ module.exports = class HiRyanCommnd extends Command {
   }
 
   run(msg) {
+    if (msg.channel.id === '356131362102706206') return msg.delete();
     let num = Math.floor(Math.random() * responses.length);
     let answer = responses[num];
     msg.channel.send(answer);
