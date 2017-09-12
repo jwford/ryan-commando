@@ -20,7 +20,7 @@ module.exports = class UnSelfAssignCommand extends Command {
 
     //notification squad
     if (role === 'bainotisquad') {
-      let bingbongbunch = msg.guild.roles.find('id', '323972051176128512');
+      let bingbongbunch = msg.guild.roles.get('323972051176128512');
       if (!bingbongbunch) return msg.reply('uhh, somebody messed up somewhere because I can\'t seem to find the Notification Squad role.');
 
       if (!msg.member.roles.exists('name', 'Notification Squad')) return msg.reply('You\'re not in the Notification Squad... sooo.... yeah.');
@@ -31,7 +31,7 @@ module.exports = class UnSelfAssignCommand extends Command {
 
     //hunt squad
     if (role === 'baihuntsquad') {
-      let huntsquad = msg.guild.roles.find('id', '355407537702436867');
+      let huntsquad = msg.guild.roles.get('355407537702436867');
       if (!huntsquad) return msg.reply('whoops, I think the Hunt Squad role disappeared.');
 
       if (msg.member.roles.exists('name', 'Hunt Squad')) {

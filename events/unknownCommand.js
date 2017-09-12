@@ -1,10 +1,5 @@
 module.exports = msg => {
-  let client = msg.guild.members.find('id', '297890742771253258').user.client;
-  if (!client) return;
-  let tuataria = client.guilds.find('id', '273689397675687940');
-  if (!tuataria) return;
-  let squid = tuataria.emojis.find('name', 'giantsquidofanger');
+  let squid = msg.guild.members.get('297890742771253258').user.client.guilds.get('273689397675687940').emojis.get('276372748534677504');
   if (!squid) return;
-
   msg.react(squid);
 };

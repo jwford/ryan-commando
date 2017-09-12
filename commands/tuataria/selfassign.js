@@ -21,7 +21,7 @@ module.exports = class SelfAssignCommand extends Command {
 
     //notification squad
     if (role === 'notisquad' || role === 'notificationsquad') {
-      let bingbongbunch = msg.guild.roles.find('id', '323972051176128512');
+      let bingbongbunch = msg.guild.roles.get('323972051176128512');
       if (!bingbongbunch) return msg.reply('Whoops, I can\'t seem to find that role.');
 
       if (!msg.member.roles.exists('name', 'Notification Squad')) {
@@ -32,7 +32,7 @@ module.exports = class SelfAssignCommand extends Command {
 
     //hunt squad
     if (role === 'huntsquad') {
-      let huntsquad = msg.guild.roles.find('id', '355407537702436867');
+      let huntsquad = msg.guild.roles.get('355407537702436867');
       if (!huntsquad) return msg.reply('somebody messed up somewhere because I can\'t find the Hunt Squad role.');
 
       if (!msg.member.roles.exists('name', 'Hunt Squad')) {
