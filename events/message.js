@@ -1,6 +1,11 @@
 const reacts = require('../data.json').reacts;
 
-module.exports = msg => {
+module.exports = (oldMsg, newMsg) => {
+  let msg;
+  if (newMsg === undefined) {
+    msg = oldMsg;
+  } else msg = newMsg;
+  
   if (msg.channel.id === '342112503746265100') return; //stop auto-reacts in rinfo
 
   for (let phrase in reacts) {
