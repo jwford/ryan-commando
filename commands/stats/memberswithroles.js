@@ -13,7 +13,7 @@ module.exports = class MembersWithRolesCommand extends Command {
   }
 
   run(msg) {
-    if (msg.guild.memberCount !== msg.guild.members.size) return msg.reply('yell at a modmin to cache the members.');
+    if (msg.guild.memberCount !== msg.guild.members.size) return msg.reply('yell at Enchilada to cache the members.');
 
     let num = msg.guild.members.filter(m => m.roles.size > 1).size;
 
