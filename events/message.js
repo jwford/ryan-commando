@@ -24,7 +24,7 @@ module.exports = (oldMsg, newMsg) => {
         for (let [id, guild] of ryanGuilds) { //eslint-disable-line no-unused-vars
           if (guild.emojis.exists('name', react)) {
             react = guild.emojis.find('name', react);
-            return msg.react(react);
+            msg.react(react);
           }
         }
 
