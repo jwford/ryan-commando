@@ -25,10 +25,9 @@ module.exports = (oldMsg, newMsg) => {
           if (guild.emojis.exists('name', react)) {
             react = guild.emojis.find('name', react);
             msg.react(react);
+            break;
           }
         }
-
-        return;
       }
     }
   }
