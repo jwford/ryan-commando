@@ -19,7 +19,10 @@ module.exports = (oldMsg, newMsg) => {
       if (emojiRegex.test(react)) {
         msg.react(react);
       } else {
-        let ryanGuilds = msg.guild.members.get('345678639851110400').user.client.guilds;
+        let ryanGuilds;
+        if (msg.channel.type === 'text') {
+          ryanGuilds = msg.guild.members.get('345678639851110400').user.client.guilds;
+        } else ryanGuilds = msg.channel.client.guilds;
 
         for (let [id, guild] of ryanGuilds) { //eslint-disable-line no-unused-vars
           if (guild.emojis.exists('name', react)) {
