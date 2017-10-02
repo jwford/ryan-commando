@@ -23,19 +23,24 @@ module.exports = class GetDocCommand extends Command {
   run(msg, args) {
     let deathlyHallows = /;accio deathly hallows/i;
     if (deathlyHallows.test(msg.content)) {
-      const embed = new RichEmbed()
-      .setColor(0xef7300)
-      .addField(`Here's your doc, ${msg.member.displayName}`, 'https://goo.gl/kYuGHQ', true);
-      return msg.channel.send({embed});
+      msg.channel.send(new RichEmbed()
+      .addField(`Here's your doc, ${msg.member.displayName}`, 'https://goo.gl/kYuGHQ', true)
+      .setColor(0xef7300));
     }
 
-    var doc = docList[args.doc.toLowerCase()];
+    if (args.doc.toLowerCase() === 'list') {
+      let list = '';
+      for (let docCode in docList) {
+        list += `${docCode}\n`;
+      }
+      return msg.channel.send(list.slice(0, -2));
+    }
 
-    if(!doc) return msg.channel.send('Either I can\'t retrieve that doc (blame Enchilada or BoedJ), or it doesn\'t exist (blame yourself).');
+    let doc = docList[args.doc.toLowerCase()];
+    if (!doc) return msg.channel.send('Either I can\'t retrieve that doc (blame Ench or SJ), or it doesn\'t exist (blame yourself).');
 
-    const embed = new RichEmbed()
-    .setColor(0xef7300)
-    .addField(`Here's your doc, ${msg.member.displayName}`, '<' + doc + '>', true);
-    msg.channel.send({embed});
+    msg.channel.send(new RichEmbed()
+    .addField(`Here's your doc, ${msg.member.displayName}`, '<' + doc + '>', true)
+    .setColor(0xef7300));
   }
 };

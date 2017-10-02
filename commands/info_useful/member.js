@@ -1,6 +1,7 @@
 const { Command } = require('discord.js-commando');
 const RichEmbed = require('discord.js').RichEmbed;
 const moment = require('moment');
+const prettyMs = require('pretty-ms');
 
 module.exports = class MemberCommand extends Command {
   constructor(client) {
@@ -19,18 +20,17 @@ module.exports = class MemberCommand extends Command {
   }
 
   run(msg, args) {
-    var member = args.member;
-    var user = member.user;
+    let member = args.member;
+    let user = member.user;
 
-    var roles = member.roles.map(r => r.name).sort().join(', ').replace(/@/g, '');
+    let roles = member.roles.filter(r => r.name !== '@everyone').map(r => r.name).join(', ');
+    if (roles === '') roles = 'None';
 
-    const embed = new RichEmbed()
-    .setAuthor(`${user.tag}`, `${user.displayAvatarURL}`)
+    msg.channel.send(new RichEmbed()
+    .setAuthor(user.tag, user.displayAvatarURL)
+    .addField(`Joined ${msg.guild.name}`, `${moment(member.joinedTimestamp).format('MM-DD-YY')} (${prettyMs(Date.now() - member.joinedTimestamp, {compact: true, verbose: true}).slice(1)} ago)`)
+    .addField('Roles', member.roles.filter(r => r.name !== '@everyone').map(r => r.name).join(', '))
     .setColor(0x9bf442)
-    .addField('Username: ', user.username, true)
-    .addField('Status: ', user.presence.status, true)
-    .addField(`Joined ${msg.guild.name}: `, moment(member.joinedTimestamp).format('MMM Do YYYY @ HH:mm [GMT]ZZ'), true)
-    .addField('Roles: ', roles);
-    msg.channel.send({embed});
+    .setTimestamp());
   }
 };
