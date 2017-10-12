@@ -29,7 +29,7 @@ module.exports = class MemberCommand extends Command {
     msg.channel.send(new RichEmbed()
     .setAuthor(user.tag, user.displayAvatarURL)
     .addField(`Joined ${msg.guild.name}`, `${moment(member.joinedTimestamp).format('MM-DD-YY')} (${prettyMs(Date.now() - member.joinedTimestamp, {compact: true, verbose: true}).slice(1)} ago)`)
-    .addField('Roles', member.roles.filter(r => r.name !== '@everyone').map(r => r.name).join(', '))
+    .addField('Roles', roles)
     .setColor(0x9bf442)
     .setTimestamp());
   }
