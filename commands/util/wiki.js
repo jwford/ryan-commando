@@ -60,10 +60,11 @@ function parseWikiHTML(s) {
   }
 
   //Parse Text
-  parsedPage.text = matchedText[1].replace(/\<\/?i\>/g, "*")  //italics
-                                  .replace(/\<\/?b\>/g, "**") //bold
-                                  .replace(/\<\/?.+?\>/g, "") //strip HTML
-                                  .replace(/\[.+?\]/g, "");   //strip citations
+  parsedPage.text = matchedText[1].replace(/\<\/?i\>/g, "*")    //italics
+                                  .replace(/\<\/?b\>/g, "**")   //bold
+                                  .replace(/\<\/?.+?\>/g, "")   //strip HTML
+                                  .replace(/&#160;/g, " ")      //non breaking space
+                                  .replace(/\[[0-9]+?\]/g, ""); //strip citations
 
   return parsedPage;
 }
