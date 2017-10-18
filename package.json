@@ -17,5 +17,8 @@
     "discord.js-commando": "github:gawdl3y/discord.js-commando",
     "moment": "^2.18.1",
     "pretty-ms": "^3.0.1"
+  },
+  "devDependencies": {
+    "node-wikipedia": "0.0.2"
   }
 }
