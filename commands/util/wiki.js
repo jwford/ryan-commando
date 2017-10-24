@@ -66,5 +66,16 @@ function parseWikiHTML(s) {
                                   .replace(/&#160;/g, " ")      //non breaking space
                                   .replace(/\[[0-9]+?\]/g, ""); //strip citations
 
+  //Deal with Disambig pages
+  if (parsedPage.text.indexOf("may refer to:") !== -1){
+    var listPattern = new RegExp(/\<li\>(.+?)\<\/li\>/g); //Find all members of lists
+
+    s.replace(/\<li\>(.+?)\<\/li\>/g, function(str, match){
+      var cleanedMatch = match.replace(/\<\/?.+?\>/g, "");
+      parsedPage.text += `\n${cleanedMatch}`; //strip HTML & append to text
+      console.log(`Found disambig member: ${cleanedMatch}`);
+    });
+  }
+
   return parsedPage;
 }
