@@ -12,6 +12,6 @@ module.exports = class TimezoneCommand extends Command {
   }
 
   run(msg) {
-    msg.channel.send('<https://www.youtube.com/watch?v=-5wpm-gesOY>');
+    msg.channel.send('<https://www.youtube.com/watch?v=-5wpm-gesOY>\n<https://www.timeanddate.com/worldclock/converter.html>');
   }
 };
