@@ -11,11 +11,11 @@ module.exports = (msg, newMsg) => {
     if (reactPhrase.test(msg.content.replace(/\u206a/g, ''))) {
       let react = reacts[phrase];
 
-      if (emojiRegex.test(react)) return msg.react(react);
+      if (emojiRegex.test(react)) msg.react(react);
 
       if (!msg.guild.emojis.exists('name', react)) return;
 
-      return msg.react(msg.guild.emojis.find('name', react));
+      msg.react(msg.guild.emojis.find('name', react));
     }
   }
 };
