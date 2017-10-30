@@ -49,7 +49,7 @@ module.exports = class ConvertCommand extends Command {
     let best = convert(num).from(inputUnit).toBest();
 
     let outputPossibles = convert().from(inputUnit).possibilities();
-    if (outputPossibles.includes(outputUnit)) return msg.reply('you can\'t make that conversion, silly. Try to do better next time.');
+    if (!outputPossibles.includes(outputUnit)) return msg.reply('you can\'t make that conversion, silly. Try to do better next time.');
 
     if (inputUnit === 'K' && num < 0) return msg.reply('Kelvin can\'t be negative. Come on now, at least try.');
     if (inputUnit === 'C' && num < -273.15) return msg.reply('that\'s below absolute zero. Nice try though.');
