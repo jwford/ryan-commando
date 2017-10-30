@@ -5,7 +5,7 @@ module.exports = class RollCommand extends Command {
   constructor(client) {
     super(client, {
       name: 'roll',
-      group: 'info_useful',
+      group: 'useful',
       memberName: 'roll',
       description: 'Rolls a die.',
       format: '[number of sides]',
@@ -25,30 +25,21 @@ module.exports = class RollCommand extends Command {
   run(msg, args) {
     if (msg.guild.id !== '273689397675687940' && msg.guild.id !== '318756188135227402') return msg.delete(); //tuataria and gamataria
 
-    let sides = args.sides;
+    if (args.sides === 'out') return msg.channel.send(new RichEmbed()
+    .setColor(0x2913ef)
+    .setTitle('Autobots, transform and roll out!'));
 
-    if (sides === 'out') {
-      const embed = new RichEmbed()
-      .setColor(0x2913ef)
-      .setTitle('Autobots, transform and roll out!');
-      return msg.channel.send({embed});
-    }
-
-    if (isNaN(sides)) return msg.reply('yeah, let\'s use numbers, please.');
-    sides = parseFloat(sides);
+    if (isNaN(args.sides)) return msg.reply('yeah, let\'s use numbers, please.');
+    let sides = parseFloat(args.sides);
 
     if (!this.client.isOwner(msg.author)) {
       if (sides < 2 || sides > 1000 || sides % 1 !== 0) return msg.reply('come on now, please enter a valid integer between 2 and 1,000.');
     }
 
     let roll = Math.floor(Math.random() * sides) + 1;
-    if (roll === 1000) {
-      roll = Math.floor(Math.random() * sides) + 1;
-    }
 
-    const embed = new RichEmbed()
+    msg.channel.send(new RichEmbed()
     .setColor(0x2913ef)
-    .setTitle(`${msg.member.displayName}, you rolled a ${roll} :game_die:`);
-    msg.channel.send({embed});
+    .setTitle(`${msg.member.displayName}, you rolled a ${roll} :game_die:`));
   }
 };

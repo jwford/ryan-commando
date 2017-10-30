@@ -13,14 +13,12 @@ module.exports = class TotalMembersCommand extends Command {
   }
 
   run(msg) {
-    let guild = msg.guild;
-    let collectionSize = guild.members.size;
+    let collectionSize = msg.guild.members.size;
 
-    if (collectionSize !== guild.memberCount) return msg.reply('yell at a modmin to cache the members, I seem to have lost count. Don\'t worry if you have no idea what I just said, they\'ll get it.');
+    if (collectionSize < msg.guild.memberCount) return msg.reply('yell at Enchilada to cache the members.');
 
-    const embed = new RichEmbed()
+    msg.channel.send(new RichEmbed()
     .setColor(0xdbf268)
-    .setTitle(`There are ${guild.memberCount} members in ${guild.name}.`);
-    msg.channel.send({embed});
+    .setTitle(`There are ${msg.guild.memberCount} members in ${msg.guild.name}.`));
   }
 };

@@ -19,24 +19,20 @@ module.exports = class SortMeCommand extends Command {
 
   run(msg, args) {
     if (msg.guild.id !== '311165518080114688') return msg.delete();
-    var member = msg.member;
-    var quiz = args.quiz.toLowerCase();
+    let quiz = args.quiz.toLowerCase();
 
     if (quiz === 'hogwarts') {
-      const embed = new RichEmbed()
+      msg.channel.send(new RichEmbed()
       .setColor(0x276df9)
-      .addField(`Here's the Sorting Quiz for Hogwarts, ${member.displayName}`, '<https://my.pottermore.com/sorting-hat>', true);
-      msg.channel.send({embed});
+      .addField(`Here's the Sorting Quiz for Hogwarts, ${msg.member.displayName}`, '<https://my.pottermore.com/sorting-hat>', true));
     } else if (quiz === 'ilvermorny') {
-      const embed = new RichEmbed()
+      msg.channel.send(new RichEmbed()
       .setColor(0x276df9)
-      .addField(`Here's the Sorting Quiz for Ilvermorny, ${member.displayName}`, '<https://my.pottermore.com/ilvermorny-sorting>', true);
-      msg.channel.send({embed});
+      .addField(`Here's the Sorting Quiz for Ilvermorny, ${msg.member.displayName}`, '<https://my.pottermore.com/ilvermorny-sorting>', true));
     } else if (quiz === 'tuataria') {
-      const embed = new RichEmbed()
+      msg.channel.send(new RichEmbed()
       .setColor(0x276df9)
-      .addField(`Here's the Sorting Quiz for Tuataria, ${member.displayName}`, '<http://www.quibblo.com/quiz/klYoV-h/TUATARIA-SORTING-HAT-QUIZ>', true);
-      msg.channel.send({embed});
+      .addField(`Here's the Sorting Quiz for Tuataria, ${msg.member.displayName}`, '<http://www.quibblo.com/quiz/klYoV-h/TUATARIA-SORTING-HAT-QUIZ>', true));
     }
   }
 };

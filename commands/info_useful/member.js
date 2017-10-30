@@ -7,7 +7,7 @@ module.exports = class MemberCommand extends Command {
   constructor(client) {
     super(client, {
       name: 'member',
-      group: 'info_useful',
+      group: 'useful',
       memberName: 'memberinfo',
       description: 'Displays an overview of a member.',
       guildOnly: true,

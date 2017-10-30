@@ -7,7 +7,7 @@ module.exports = class GetDocCommand extends Command {
     super(client, {
       name: 'getdoc',
       aliases: ['doc', 'accio'],
-      group: 'info_useful',
+      group: 'useful',
       memberName: 'getdoc',
       description: 'Need a doc? This is the command for you!',
       format: '[doc]',
@@ -21,13 +21,6 @@ module.exports = class GetDocCommand extends Command {
   }
 
   run(msg, args) {
-    let deathlyHallows = /;accio deathly hallows/i;
-    if (deathlyHallows.test(msg.content)) {
-      msg.channel.send(new RichEmbed()
-      .addField(`Here's your doc, ${msg.member.displayName}`, 'https://goo.gl/kYuGHQ', true)
-      .setColor(0xef7300));
-    }
-
     if (args.doc.toLowerCase() === 'list') {
       let list = '';
       for (let docCode in docList) {
@@ -40,7 +33,7 @@ module.exports = class GetDocCommand extends Command {
     if (!doc) return msg.channel.send('Either I can\'t retrieve that doc (blame Ench or SJ), or it doesn\'t exist (blame yourself).');
 
     msg.channel.send(new RichEmbed()
-    .addField(`Here's your doc, ${msg.member.displayName}`, '<' + doc + '>', true)
+    .addField(`Here's your doc, ${msg.member.displayName}`, `${doc}`, true)
     .setColor(0xef7300));
   }
 };

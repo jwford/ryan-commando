@@ -17,7 +17,7 @@ require('./util/eventLoader')(ryanbot);
 ryanbot.registry
     .registerGroups([
         ['hogwartaria', 'Hogwartaria Only Commands'],
-        ['info_useful', 'Info/Useful Commands'],
+        ['useful', 'Info/Useful Commands'],
         ['owners', 'Bot Owner Commands'],
         ['stats', 'Statistic Commands'],
         ['tuataria', 'Tuataria Only Commands'],
@@ -26,7 +26,8 @@ ryanbot.registry
     .registerDefaultGroups()
     .registerDefaultTypes()
     .registerDefaultCommands({
-      ping: false
+      ping: false,
+      eval_: false
     })
     .registerCommandsIn(path.join(__dirname, 'commands'));
 

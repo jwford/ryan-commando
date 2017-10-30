@@ -7,7 +7,7 @@ module.exports = class UnSelfAssignCommand extends Command {
       aliases: ['bainotisquad', 'baihuntsquad'],
       group: 'tuataria',
       memberName: 'unselfassign',
-      description: 'Removes a member from the Notification Squad role.',
+      description: 'Removes a member from the Notification/Hunt Squad role.',
       guildOnly: true
     });
   }
@@ -16,7 +16,7 @@ module.exports = class UnSelfAssignCommand extends Command {
     if (msg.guild.id !== '273689397675687940') return msg.delete();
 
     let role = msg.content.slice(2);
-    if (role === 'tuaunselfassign') return msg.reply('look at you being fancy and spying on my git repo.');
+    if (role === 'tuaunselfassign') return msg.reply('you need to use one of the aliases of this command for it to do anything :stuck_out_tongue:');
 
     //notification squad
     if (role === 'bainotisquad') {

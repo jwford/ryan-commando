@@ -4,7 +4,7 @@ module.exports = class MarkdownCommand extends Command {
   constructor(client) {
     super(client, {
       name: 'markdown',
-      group: 'info_useful',
+      group: 'useful',
       memberName: 'markdown',
       description: 'Need help with markup? This is for you!',
       args: [{
@@ -18,7 +18,7 @@ module.exports = class MarkdownCommand extends Command {
   }
 
   run(msg, args) {
-    var query = args.question;
+    let query = args.question;
 
     switch (query) {
     case 'italics':

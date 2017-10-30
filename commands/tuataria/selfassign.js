@@ -8,7 +8,7 @@ module.exports = class SelfAssignCommand extends Command {
         'gmt+4', 'gmt+5', 'gmt+5:30', 'gmt+6', 'gmt+7', 'gmt+8', 'gmt+9', 'gmt+9:30', 'gmt+10', 'gmt+11', 'gmt+12', 'gmt+13', 'gmt+14', 'gmt-less', 'huntsquad'],
       group: 'tuataria',
       memberName: 'selfassign',
-      description: 'Self-assign command for Tuataria',
+      description: 'Self-assign/timezone role switch command for Tuataria',
       guildOnly: true
     });
   }
@@ -17,7 +17,7 @@ module.exports = class SelfAssignCommand extends Command {
     if (msg.guild.id !== '273689397675687940') return msg.delete();
 
     let role = msg.content.slice(2);
-    if (role === 'tuaselfassign') return msg.reply('have you been spying on my git repo?!');
+    if (role === 'tuaselfassign') return msg.reply('you need to use one of the aliases of this command for it to do anything :stuck_out_tongue:');
 
     //notification squad
     if (role === 'notisquad' || role === 'notificationsquad') {
