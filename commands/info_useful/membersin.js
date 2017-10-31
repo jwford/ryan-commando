@@ -5,7 +5,7 @@ module.exports = class ListMembersInCommand extends Command {
   constructor(client) {
     super(client, {
       name: 'membersin',
-      group: 'stats',
+      group: 'useful',
       memberName: 'membersin',
       description: 'List the members in a certain role.',
       guildOnly: true,
