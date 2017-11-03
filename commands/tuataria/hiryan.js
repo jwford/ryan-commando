@@ -7,7 +7,8 @@ module.exports = class HiRyanCommnd extends Command {
       name: 'hiryan',
       group: 'tuataria',
       memberName: 'hiryan',
-      description: 'Supsteve, but for Ryan.',
+      description: '`;supsteve`, but for Ryan.',
+      details: 'This command picks a random fun response (created by the community) and says it you. You can only use it once every 10 seconds.',
       guildOnly: true,
       throttling: {
         usages: 1,

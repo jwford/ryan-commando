@@ -9,6 +9,7 @@ module.exports = class StatsCommand extends Command {
       group: 'useful',
       memberName: 'stats',
       description: 'Provides statistics about a server.',
+      details: 'This command gives the total number of members, the number of members with at least 1 role, and the percentage of members of the server who have at least one role.',
       guildOnly: true
     });
   }

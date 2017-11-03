@@ -9,6 +9,8 @@ module.exports = class SelfAssignCommand extends Command {
       group: 'hogwartaria',
       memberName: 'selfassign',
       description: 'Allows members to sort themselves into various houses on Hogwartaria.',
+      details: 'Sort yourself into a Hogwarts, Ilvermorny, or Tutaria house with this command!',
+      examples: ['`r;gryffindor`', '`r;hornedserpent`', '`r;tuatara`'],
       guildOnly: true
     });
   }

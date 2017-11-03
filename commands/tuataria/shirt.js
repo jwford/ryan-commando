@@ -7,6 +7,7 @@ module.exports = class ShirtCommand extends Command {
       group: 'tuataria',
       memberName: 'shirt',
       description: 'Brings up the shirt promo.',
+      details: 'Want to be a shill for Skye and Gus? This is the command for you!',
       guildOnly: true
     });
   }

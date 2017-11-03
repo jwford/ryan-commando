@@ -8,7 +8,8 @@ module.exports = class SideServersCommand extends Command {
       aliases: ['sideserver'],
       group: 'tuataria',
       memberName: 'sideservers',
-      description: 'Lists Tuataria side servers, with their invite links.'
+      description: 'Lists Tuataria side servers, with their invite links.',
+      details: 'The links that this command provides don\'t work on iOS at this time. #BlameDiscord.'
     });
   }
 

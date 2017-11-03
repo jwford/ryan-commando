@@ -9,12 +9,14 @@ module.exports = class EvalCommand extends Command {
       group: 'owners',
       memberName: 'eval',
       description: 'Evaluates JavaScript code.',
+      details: 'This is an *extremely* dangerous command to have access to. If you find yourself being able to use it and you don\'t think you should be able to, something has gone very wrong and you should let Jonathan know *immediately*.',
       args: [{
         key: 'code',
         label: 'code to evaluate',
         prompt: 'What code would you like to evaluate?',
         type: 'string'
-      }]
+      }],
+      guarded: true
     });
   }
 

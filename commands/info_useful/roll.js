@@ -8,7 +8,7 @@ module.exports = class RollCommand extends Command {
       group: 'useful',
       memberName: 'roll',
       description: 'Rolls a die.',
-      format: '[number of sides]',
+      details: 'You can only use this command once every 10 seconds. You must enter an *integer* that is between 2 and 1000, inclusive. If you don\'t provide a number, the command will default to 6.',
       throttling: {
         usages: 1,
         duration: 10
@@ -16,30 +16,18 @@ module.exports = class RollCommand extends Command {
       args: [{
         key: 'sides',
         label: 'number of sides',
-        type: 'string',
+        type: 'integer',
         prompt: 'Enter the number of sides the die should have.',
-        default: '6'}]
+        default: '6',
+        validate: sides => {
+          if (sides < 2 || sides > 1000 || sides % 1 !== 0) return 'come on now, please enter a valid integer between 2 and 1,000.';
+        }}]
     });
   }
 
   run(msg, args) {
-    if (msg.guild.id !== '273689397675687940' && msg.guild.id !== '318756188135227402') return msg.delete(); //tuataria and gamataria
-
-    if (args.sides === 'out') return msg.channel.send(new RichEmbed()
-    .setColor(0x2913ef)
-    .setTitle('Autobots, transform and roll out!'));
-
-    if (isNaN(args.sides)) return msg.reply('yeah, let\'s use numbers, please.');
-    let sides = parseFloat(args.sides);
-
-    if (!this.client.isOwner(msg.author)) {
-      if (sides < 2 || sides > 1000 || sides % 1 !== 0) return msg.reply('come on now, please enter a valid integer between 2 and 1,000.');
-    }
-
-    let roll = Math.floor(Math.random() * sides) + 1;
-
     msg.channel.send(new RichEmbed()
     .setColor(0x2913ef)
-    .setTitle(`${msg.member.displayName}, you rolled a ${roll} :game_die:`));
+    .setTitle(`${msg.member.displayName}, you rolled a ${Math.floor(Math.random() * args.sides) + 1} :game_die:`));
   }
 };

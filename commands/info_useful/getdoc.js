@@ -10,12 +10,17 @@ module.exports = class GetDocCommand extends Command {
       group: 'useful',
       memberName: 'getdoc',
       description: 'Need a doc? This is the command for you!',
-      format: '[doc]',
+      details: 'Instead of giving Ryan a doc code with this command, you can say "list" to get a list of all the doc codes.',
+      examples: ['`r;doc tuatara report`', '`r;doc list`'],
       args: [{
         key: 'doc',
-        label: 'doc',
+        label: 'doc code',
         prompt: 'Input the doc you want to get.',
-        type: 'string'
+        type: 'string',
+        validate: doc => {
+          if (!docList[doc] && doc.toLowerCase() !== 'list') return 'looks like you either made a typo, or you need to yell at Ench to add that doc.';
+          return true;
+        }
       }]
     });
   }
@@ -26,14 +31,11 @@ module.exports = class GetDocCommand extends Command {
       for (let docCode in docList) {
         list += `${docCode}\n`;
       }
-      return msg.channel.send(list.slice(0, -2));
+      return msg.channel.send(list.slice(0, -1));
     }
 
-    let doc = docList[args.doc.toLowerCase()];
-    if (!doc) return msg.channel.send('Either I can\'t retrieve that doc (blame Ench or SJ), or it doesn\'t exist (blame yourself).');
-
     msg.channel.send(new RichEmbed()
-    .addField(`Here's your doc, ${msg.member.displayName}`, `${doc}`, true)
+    .addField(`Here's your doc, ${msg.member.displayName}`, `${docList[args.doc.toLowerCase()]}`, true)
     .setColor(0xef7300));
   }
 };

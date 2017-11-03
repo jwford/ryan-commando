@@ -8,11 +8,18 @@ module.exports = class SortMeCommand extends Command {
       group: 'hogwartaria',
       memberName: 'sortme',
       description: 'Links the sorting quizzes for Hogwarts, Ilvermorny, and Tuataria.',
+      details: 'In case you want to know which house to sort yourself into, but aren\'t sure, use this command to access links to the quizzes!',
+      examples: ['`r;sortme hogwarts`', '`r;sortme ilvermorny`', '`r;sortme tuataria`'],
       guildOnly: true,
       args: [{
         key: 'quiz',
         prompt: 'Which sorting quiz would you like the link to?',
-        type: 'string'
+        type: 'string',
+        validate: quiz => {
+          quiz = quiz.toLowerCase();
+          if (quiz !== 'hogwarts' && quiz !== 'ilvermorny' && quiz !== 'tuataria') return 'that\'s not a valid quiz. Fix your typo smh';
+          return true;
+        }
       }]
     });
   }

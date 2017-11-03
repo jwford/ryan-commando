@@ -8,6 +8,7 @@ module.exports = class UnSelfAssignCommand extends Command {
       group: 'tuataria',
       memberName: 'unselfassign',
       description: 'Removes a member from the Notification/Hunt Squad role.',
+      details: 'You must use one of the aliases of this command for it to work; the actual name of the command doesn\'t do anything useful.',
       guildOnly: true
     });
   }
