@@ -18,7 +18,7 @@ module.exports = class GetDocCommand extends Command {
         prompt: 'Input the doc you want to get.',
         type: 'string',
         validate: doc => {
-          if (!docList[doc] && doc.toLowerCase() !== 'list') return 'looks like you either made a typo, or you need to yell at Ench to add that doc.';
+          if (!docList[doc.toLowerCase()] && doc.toLowerCase() !== 'list') return 'looks like you either made a typo, or you need to yell at Ench to add that doc.';
           return true;
         }
       }]
