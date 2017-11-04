@@ -21,6 +21,7 @@ module.exports = class RollCommand extends Command {
         default: '6',
         validate: sides => {
           if (sides < 2 || sides > 1000 || sides % 1 !== 0) return 'come on now, please enter a valid integer between 2 and 1,000.';
+          return true;
         }}]
     });
   }
