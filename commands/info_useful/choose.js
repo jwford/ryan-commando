@@ -27,6 +27,6 @@ module.exports = class ChooseCommand extends Command {
 
     msg.channel.send(new RichEmbed()
     .setColor(0xffbb00)
-    .addField('Ryan chooses...', `${choices[Math.floor(Math.random() * choices.length)]}!!`));
+    .addField('Ryan chooses...', `${choices[Math.floor(Math.random() * choices.length) + 1]}!!`));
   }
 };
