@@ -7,9 +7,11 @@ module.exports = class MemberCommand extends Command {
   constructor(client) {
     super(client, {
       name: 'member',
-      group: 'info_useful',
+      group: 'useful',
       memberName: 'memberinfo',
-      description: 'Displays an overview of a member.',
+      description: 'Displays a brief overview of a member\'s information.',
+      details: 'This command shows you a member\'s username, profile picture, when they joined the server, and the list of roles they have.',
+      examples: ['`r;member erinclements`', '`r;member #3312`'],
       guildOnly: true,
       args: [{
         key: 'member',
@@ -20,15 +22,12 @@ module.exports = class MemberCommand extends Command {
   }
 
   run(msg, args) {
-    let member = args.member;
-    let user = member.user;
-
-    let roles = member.roles.filter(r => r.name !== '@everyone').map(r => r.name).join(', ');
+    let roles = args.member.roles.filter(r => r.name !== '@everyone').map(r => r.name).join(', ');
     if (roles === '') roles = 'None';
 
     msg.channel.send(new RichEmbed()
-    .setAuthor(user.tag, user.displayAvatarURL)
-    .addField(`Joined ${msg.guild.name}`, `${moment(member.joinedTimestamp).format('MM-DD-YY')} (${prettyMs(Date.now() - member.joinedTimestamp, {compact: true, verbose: true}).slice(1)} ago)`)
+    .setAuthor(args.member.user.tag, args.member.user.displayAvatarURL)
+    .addField(`Joined ${msg.guild.name}`, `${moment(args.member.joinedTimestamp).format('MM-DD-YY')} (${prettyMs(Date.now() - args.member.joinedTimestamp, {compact: true, verbose: true}).slice(1)} ago)`)
     .addField('Roles', roles)
     .setColor(0x9bf442)
     .setTimestamp());

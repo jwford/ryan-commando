@@ -8,16 +8,16 @@ module.exports = class SideServersCommand extends Command {
       aliases: ['sideserver'],
       group: 'tuataria',
       memberName: 'sideservers',
-      description: 'Lists Tuataria side servers, with their invite links.'
+      description: 'Lists Tuataria side servers, with their invite links.',
+      details: 'The links that this command provides don\'t work on iOS at this time. #BlameDiscord.'
     });
   }
 
   run(msg) {
-    var serverList = ['[Codetaria](https://discord.gg/yFKMrvZ)', '[Gamataria](https://discord.gg/8uTmbuX)', '[Hogwartaria](https://discord.gg/kVRp4Q7)', '[Tuataria Book Club](https://discord.gg/f5XvUgd)', '[Tuatariglot](https://discord.gg/cMZ5yWN)', '[Typotaria](https://discord.gg/QhZaK8a)', '[100 days](https://discord.gg/Jh4JMVn)'];
+    let serverList = ['[Codetaria](https://discord.gg/yFKMrvZ)', '[Gamataria](https://discord.gg/8uTmbuX)', '[Hogwartaria](https://discord.gg/kVRp4Q7)', '[Tuataria Book Club](https://discord.gg/f5XvUgd)', '[Tuatariglot](https://discord.gg/cMZ5yWN)', '[Typotaria](https://discord.gg/QhZaK8a)', '[100 days](https://discord.gg/Jh4JMVn)'];
 
-    const embed = new RichEmbed()
+    msg.channel.send(new RichEmbed()
     .setColor(0x276df9)
-    .addField('Sideservers', serverList, true);
-    msg.channel.send({embed});
+    .addField('Sideservers', serverList, true));
   }
 };

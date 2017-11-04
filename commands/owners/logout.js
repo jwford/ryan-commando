@@ -6,7 +6,8 @@ module.exports = class LogoutCommand extends Command {
       name: 'logout',
       group: 'owners',
       memberName: 'logout',
-      description: 'Logs out client.'
+      description: 'Logs out client.',
+      details: 'This command is used by Ryan\'s owners to quickly log him out in case of an emergency. Or for fuckery.'
     });
   }
 

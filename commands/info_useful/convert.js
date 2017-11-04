@@ -7,13 +7,15 @@ module.exports = class ConvertCommand extends Command {
     super(client, {
       name: 'convert',
       aliases: ['transfigure'],
-      group: 'info_useful',
+      group: 'useful',
       memberName: 'convert',
-      description: 'Converts units. This command is case sensitive, so be careful!',
+      description: 'Converts units.',
+      details: 'This command is case sensitive, so be careful!',
+      examples: ['`r;convert 50 F C`', '`r;convert 100 ft mi`', '`r;convert 1000 g best`', '`r;convert 10 kg possible`'],
       args: [
         {
           key: 'num',
-          label: 'value',
+          label: 'value to convert',
           prompt: 'What would you like to convert?',
           type: 'float'
         },
@@ -22,30 +24,19 @@ module.exports = class ConvertCommand extends Command {
           prompt: 'What unit would you like to convert from?',
           type: 'string',
           validate: inputUnit => {
-            var possible = convert().possibilities();
-            var valid = 0;
-            for (var i = 0; i < possible.length; i++) {
-              if (inputUnit === possible[i]) valid++;
-            }
-            if (valid !== 1) {
-              return false;
-            } else return true;
+            if (convert().possibilities().includes(inputUnit)) return true;
+            return 'that\'s an invalid unit. You may have used improper capitalization.';
           }
         },
         {
           key: 'outputUnit',
           prompt: 'What unit would you like to convert to? You can also say "possible" to get a list of possible units, or "best" to automatically convert to the smallest unit with a value greater than 1.',
           type: 'string',
-          validate: outputUnit => {
+          validate: (outputUnit, msg) => {
             if (outputUnit === 'best' || outputUnit === 'possible') return true;
-            var possible = convert().possibilities();
-            var valid = 0;
-            for (var i = 0; i < possible.length; i++) {
-              if (outputUnit === possible[i]) valid++;
-            }
-            if (valid !== 1) {
-              return false;
-            } else return true;
+            let inputUnit = msg.content.split(' ')[2];
+            if (convert().from(inputUnit).possibilities().includes(outputUnit)) return true;
+            return 'that\'s an invalid unit. You may have used improper capitalization, or tried to do an impossible conversion.';
           }
         }
       ]
@@ -53,50 +44,31 @@ module.exports = class ConvertCommand extends Command {
   }
 
   run(msg, args) {
-    var num = args.num;
-    var inputUnit = args.inputUnit;
-    var outputUnit = args.outputUnit;
-    var best = convert(num).from(inputUnit).toBest();
+    let inputUnit = args.inputUnit;
+    let outputUnit = args.outputUnit;
+    let best = convert(args.num).from(inputUnit).toBest();
 
-    var outputPossibles = convert().from(inputUnit).possibilities();
-    var outputValid = 0;
-    for (var i = 0; i < outputPossibles.length; i++) {
-      if (outputUnit === outputPossibles[i]) outputValid++;
-      if (outputUnit === 'best' || outputUnit === 'possible') {
-        outputValid = 1;
-      }
-    }
+    if (inputUnit === 'K' && args.num < 0) return msg.reply('Kelvin can\'t be negative. Come on now, at least try.');
+    if (inputUnit === 'C' && args.num < -273.15) return msg.reply('that\'s below absolute zero. Nice try though.');
+    if (inputUnit === 'F' && args.num < -459.67) return msg.reply('that\'s below absolute zero. Nice try though.');
 
-    if (outputValid !== 1) return msg.reply('you can\'t make that conversion, silly. Try to do better next time.');
+    if (inputUnit === 'F' && outputUnit === 'K') return msg.channel.send(new RichEmbed()
+    .setColor(0x4280f4)
+    .addField('Conversion: ', `${args.num}${inputUnit} converts to ${Math.round(((((args.num - 32) * 5 / 9) + 273.15) * 10) / 10).toFixed(1)}${outputUnit}`));
 
-    if (inputUnit === 'K' && num < 0) return msg.reply('Kelvin can\'t be negative. Come on now, at least try.');
-
-    if (inputUnit === 'C' && num < -273.15) return msg.reply('that\'s below absolute zero. Nice try though.');
-    if (inputUnit === 'F' && num < -459.67) return msg.reply('that\'s below absolute zero. Nice try though.');
-
-    if (inputUnit === 'F' && outputUnit === 'K') {
-      const embed = new RichEmbed()
-      .setColor(0x4280f4)
-      .addField('Conversion: ', `${num}${inputUnit} converts to ${Math.round(((((num - 32) * 5 / 9) + 273.15) * 10) / 10).toFixed(1)}${outputUnit}`);
-      msg.channel.send({embed});
-      return;
-    }
 
     if (outputUnit === 'possible') {
-      const embed = new RichEmbed()
+      msg.channel.send(new RichEmbed()
       .setColor(0x4280f4)
-      .addField('Conversion Possibilities: ', `${num}${inputUnit} can be converted to ${convert().from(inputUnit).possibilities().join(', ')}`, true);
-      msg.channel.send({embed});
+      .addField('Conversion Possibilities: ', `${args.num}${inputUnit} can be converted to ${convert().from(inputUnit).possibilities().join(', ')}`, true));
     } else if (outputUnit === 'best') {
-      const embed = new RichEmbed()
+      msg.channel.send(new RichEmbed()
       .setColor(0x4280f4)
-      .addField('Best Conversion: ', `${num}${inputUnit} is best converted to ${(Math.round(best.val * 10) / 10).toFixed(1)}${best.unit}`, true);
-      msg.channel.send({embed});
+      .addField('Best Conversion: ', `${args.num}${inputUnit} is best converted to ${(Math.round(best.val * 10) / 10).toFixed(1)}${best.unit}`, true));
     } else {
-      const embed = new RichEmbed()
+      msg.channel.send(new RichEmbed()
       .setColor(0x4280f4)
-      .addField('Conversion: ', `${num}${inputUnit} converts to ${(Math.round(convert(num).from(inputUnit).to(outputUnit) * 10) / 10).toFixed(1)}${outputUnit}`);
-      msg.channel.send({embed});
+      .addField('Conversion: ', `${args.num}${inputUnit} converts to ${(Math.round(convert(args.num).from(inputUnit).to(outputUnit) * 10) / 10).toFixed(1)}${outputUnit}`));
     }
   }
 };

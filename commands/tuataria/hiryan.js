@@ -7,7 +7,8 @@ module.exports = class HiRyanCommnd extends Command {
       name: 'hiryan',
       group: 'tuataria',
       memberName: 'hiryan',
-      description: 'Supsteve, but for Ryan.',
+      description: '`;supsteve`, but for Ryan.',
+      details: 'This command picks a random fun response (created by the community) and says it you. You can only use it once every 10 seconds.',
       guildOnly: true,
       throttling: {
         usages: 1,
@@ -17,9 +18,6 @@ module.exports = class HiRyanCommnd extends Command {
   }
 
   run(msg) {
-    if (msg.channel.id === '356131362102706206') return msg.delete();
-    let num = Math.floor(Math.random() * responses.length);
-    let answer = responses[num];
-    msg.channel.send(answer);
+    msg.channel.send(responses[Math.floor(Math.random() * responses.length)]);
   }
 };

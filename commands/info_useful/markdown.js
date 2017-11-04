@@ -4,12 +4,13 @@ module.exports = class MarkdownCommand extends Command {
   constructor(client) {
     super(client, {
       name: 'markdown',
-      group: 'info_useful',
+      group: 'useful',
       memberName: 'markdown',
-      description: 'Need help with markup? This is for you!',
+      description: 'Need help with markdown? This is for you!',
+      details: 'This command has an optional argument that will show you invididual markdown tips instead of the big wall of them.',
+      examples: ['`r;markdown`', '`r;markdown italics`'],
       args: [{
-        key: 'question',
-        label: 'question',
+        key: 'query',
         prompt: 'What do you want to know how to do?',
         type: 'string',
         default: ''
@@ -18,9 +19,7 @@ module.exports = class MarkdownCommand extends Command {
   }
 
   run(msg, args) {
-    var query = args.question;
-
-    switch (query) {
+    switch (args.query) {
     case 'italics':
       msg.channel.send('\`*italics*\`');
       break;

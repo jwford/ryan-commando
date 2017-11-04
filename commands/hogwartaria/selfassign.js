@@ -9,6 +9,8 @@ module.exports = class SelfAssignCommand extends Command {
       group: 'hogwartaria',
       memberName: 'selfassign',
       description: 'Allows members to sort themselves into various houses on Hogwartaria.',
+      details: 'Sort yourself into a Hogwarts, Ilvermorny, or Tutaria house with this command!',
+      examples: ['`r;gryffindor`', '`r;hornedserpent`', '`r;tuatara`'],
       guildOnly: true
     });
   }
@@ -17,7 +19,7 @@ module.exports = class SelfAssignCommand extends Command {
     if (msg.guild.id !== '311165518080114688') return msg.delete();
 
     //get role from alias
-    var house = msg.content.slice(2);
+    let house = msg.content.slice(2);
     if (house === 'hornedserpent') {
       house = 'Horned Serpent';
     } else if (house === 'selfcarebunny') {
@@ -47,35 +49,15 @@ module.exports = class SelfAssignCommand extends Command {
     msg.member.addRole(house);
     msg.channel.send(`Success! Welcome to your new House, ${msg.member.displayName}!`);
 
-    var commonroom = house.name.toLowerCase() + '_common_room';
+    let commonroom = house.name.toLowerCase() + '_common_room';
     if (msg.guild.channels.exists('name', commonroom)) {
       commonroom = msg.guild.channels.find('name', commonroom);
     } else return;
 
-    if (house.name === 'Gryffindor') {
-      const embed = new RichEmbed()
-      .setTitle(`${msg.member.displayName} has been sorted into Gryffindor House!`)
-      .setColor(0xf21404)
-      .setTimestamp();
-      commonroom.send({embed});
-    } else if (house.name === 'Ravenclaw') {
-      const embed = new RichEmbed()
-      .setTitle(`${msg.member.displayName} has been sorted into Ravenclaw House!`)
-      .setColor(0x2971e5)
-      .setTimestamp();
-      commonroom.send({embed});
-    } else if (house.name === 'Slytherin') {
-      const embed = new RichEmbed()
-      .setTitle(`${msg.member.displayName} has been sorted into Slytherin House!`)
-      .setColor(0x228900)
-      .setTimestamp();
-      commonroom.send({embed});
-    } else if (house.name === 'Hufflepuff') {
-      const embed = new RichEmbed()
-      .setTitle(`${msg.member.displayName} has been sorted into Hufflepuff House!`)
-      .setColor(0xeeff00)
-      .setTimestamp();
-      commonroom.send({embed});
+    if (house.name === 'Gryffindor' || house.name === 'Slytherin' || house.name === 'Ravenclaw' || house.name === 'Hufflepuff') {
+      msg.channel.send(new RichEmbed()
+      .setColor(house.color)
+      .setTitle(`${msg.member.displayName} has been sorted into ${house.name} House!`));
     } else return;
   }
 };

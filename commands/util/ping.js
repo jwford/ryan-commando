@@ -6,7 +6,8 @@ module.exports = class PingCommand extends Command {
       name: 'ping',
       group: 'util',
       memberName: 'ping',
-      description: 'Checks the ping.'
+      description: 'Checks the ping.',
+      details: 'The ping is a measure of how long it takes Ryan to get your message and respond back to it. It is measured in milliseconds.'
     });
   }
 
