@@ -22,10 +22,6 @@ module.exports = class ChooseCommand extends Command {
     });
   }
 
-  hasPermission(msg) {
-    if (msg.author.id === '208713471737593857') return false;
-    return true;
-  }
 
   run(msg, args) {
     let choices = args.choices.split('/');
