@@ -1,6 +1,6 @@
 const { Command } = require('discord.js-commando');
 const RichEmbed = require('discord.js').RichEmbed;
-const wikipedia = require("node-wikipedia");
+const wikipedia = require('node-wikipedia');
 
 module.exports = class WikiCommand extends Command {
   constructor(client) {
@@ -34,7 +34,7 @@ module.exports = class WikiCommand extends Command {
         }
         msg.channel.send({embed});
       } else {
-        msg.channel.send("Sorry, I couldn't find a wikipedia article about that");
+        msg.channel.send('Sorry, I couldn\'t find a wikipedia article about that');
       }
     });
   }
@@ -43,10 +43,10 @@ module.exports = class WikiCommand extends Command {
 };
 
 function parseWikiHTML(s) {
-  var parsedPage = {}
+  var parsedPage = {};
 
   //Extract image
-  var imagePattern = new RegExp(/\<img.+?src="(\S*\.(?:jpg|png|jpeg|gif|bmp))"/);
+  var imagePattern = new RegExp(/\<img.+?src='(\S*\.(?:jpg|png|jpeg|gif|bmp))'/);
   var matchedImg = imagePattern.exec(s);
   if (matchedImg) {
     parsedPage.image=`https:${matchedImg[1]}`;
@@ -60,18 +60,18 @@ function parseWikiHTML(s) {
   }
 
   //Parse Text
-  parsedPage.text = matchedText[1].replace(/\<\/?i\>/g, "*")    //italics
-                                  .replace(/\<\/?b\>/g, "**")   //bold
-                                  .replace(/\<\/?.+?\>/g, "")   //strip HTML
-                                  .replace(/&#160;/g, " ")      //non breaking space
-                                  .replace(/\[[0-9]+?\]/g, ""); //strip citations
+  parsedPage.text = matchedText[1].replace(/\<\/?i\>/g, '*')    //italics
+                                  .replace(/\<\/?b\>/g, '**')   //bold
+                                  .replace(/\<\/?.+?\>/g, '')   //strip HTML
+                                  .replace(/&#160;/g, ' ')      //non breaking space
+                                  .replace(/\[[0-9]+?\]/g, ''); //strip citations
 
   //Deal with Disambig pages
-  if (parsedPage.text.indexOf("may refer to:") !== -1){
-    var listPattern = new RegExp(/\<li\>(.+?)\<\/li\>/g); //Find all members of lists
+  if (parsedPage.text.indexOf('may refer to:') !== -1){
+    var listPattern = new RegExp(/\<li\>(.+?)\<\/li\>/g); //eslint-disable-line no-unused-vars  
 
     s.replace(/\<li\>(.+?)\<\/li\>/g, function(str, match){
-      var cleanedMatch = match.replace(/\<\/?.+?\>/g, "");
+      var cleanedMatch = match.replace(/\<\/?.+?\>/g, '');
       parsedPage.text += `\n${cleanedMatch}`; //strip HTML & append to text
       console.log(`Found disambig member: ${cleanedMatch}`);
     });
