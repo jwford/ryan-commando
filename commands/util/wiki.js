@@ -46,7 +46,7 @@ function parseWikiHTML(s) {
   var parsedPage = {};
 
   //Extract image
-  var imagePattern = new RegExp(/\<img.+?src='(\S*\.(?:jpg|png|jpeg|gif|bmp))'/);
+  var imagePattern = new RegExp(/\<img.+?src="(\S*\.(?:jpg|png|jpeg|gif|bmp))"/);
   var matchedImg = imagePattern.exec(s);
   if (matchedImg) {
     parsedPage.image=`https:${matchedImg[1]}`;
@@ -68,7 +68,7 @@ function parseWikiHTML(s) {
 
   //Deal with Disambig pages
   if (parsedPage.text.indexOf('may refer to:') !== -1){
-    var listPattern = new RegExp(/\<li\>(.+?)\<\/li\>/g); //eslint-disable-line no-unused-vars  
+    var listPattern = new RegExp(/\<li\>(.+?)\<\/li\>/g); //eslint-disable-line no-unused-vars
 
     s.replace(/\<li\>(.+?)\<\/li\>/g, function(str, match){
       var cleanedMatch = match.replace(/\<\/?.+?\>/g, '');
