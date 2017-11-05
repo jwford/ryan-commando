@@ -26,7 +26,7 @@ module.exports = class RockPaperScissorsCommand extends Command {
 
   run(msg, args) {
     let moveArray = ['rock', 'paper', 'scissors'];
-    let playerMove = moveArray.indexOf(args.move);
+    let playerMove = moveArray.indexOf(args.move.toLowerCase());
     let ryanMove = Math.floor(Math.random() * 2);
     let result = Math.abs(playerMove - ryanMove);
 
