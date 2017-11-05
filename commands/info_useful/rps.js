@@ -28,22 +28,18 @@ module.exports = class RockPaperScissorsCommand extends Command {
     let moveArray = ['rock', 'paper', 'scissors'];
     let playerMove = moveArray.indexOf(args.move);
     let ryanMove = Math.floor(Math.random() * 2);
+    let result = Math.abs(playerMove - ryanMove);
 
-    let victory;
-    if (playerMove > ryanMove) {
-      if (playerMove - ryanMove === 1) {
-        victory = `${msg.member.displayName} wins!`;
-      } else victory = 'Ryan wins!';
-    } else if (ryanMove > playerMove) {
-      if (ryanMove - playerMove === 1) {
-        victory = 'Ryan wins!';
-      } else victory = `${msg.member.displayName} wins!`;
-    } else if (ryanMove === playerMove) {
-      victory = 'It\'s a tie.';
+    if (result === 0) {
+      result = 'It\'s a tie.';
+    } else if ((result === 1 && playerMove > ryanMove) || (result === 2 && playerMove < ryanMove)) {
+      result = 'You win!';
+    } else {
+      result = 'Ryan wins!';
     }
 
     msg.channel.send(new RichEmbed()
     .setColor(0x007fff)
-    .setTitle(`${msg.member.displayName} threw ${moveArray[playerMove]} and Ryan threw ${moveArray[ryanMove]}. ${victory}`));
+    .setTitle(`${msg.member.displayName} threw ${moveArray[playerMove]} and Ryan threw ${moveArray[ryanMove]}. ${result}`));
   }
 };
