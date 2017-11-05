@@ -25,40 +25,25 @@ module.exports = class RockPaperScissorsCommand extends Command {
   }
 
   run(msg, args) {
-    let playerMove;
-    if (args.move === 'rock') {
-      playerMove = 0;
-    } else if (args.move === 'paper') {
-      playerMove = 1;
-    } else if (args.move === 'scissors') {
-      playerMove = 2;
-    }
-
+    let moveArray = ['rock', 'paper', 'scissors'];
+    let playerMove = moveArray.indexOf(args.move);
     let ryanMove = Math.floor(Math.random() * 2);
 
     let victory;
     if (playerMove > ryanMove) {
       if (playerMove - ryanMove === 1) {
-        victory = 'You';
+        victory = msg.member.displayName;
       } else victory = 'Ryan';
     } else if (ryanMove > playerMove) {
       if (ryanMove - playerMove === 1) {
         victory = 'Ryan';
-      } else victory = 'You';
+      } else victory = msg.member.displayName;
     } else if (ryanMove === playerMove) {
       victory = 'Nobody';
     }
 
-    if (ryanMove === 0) {
-      ryanMove = 'rock';
-    } else if (ryanMove === 1) {
-      ryanMove = 'paper';
-    } else if (ryanMove === 2) {
-      ryanMove = 'scissors';
-    }
-
     msg.channel.send(new RichEmbed()
     .setColor(0x007fff)
-    .setTitle(`You threw ${args.move} and Ryan threw ${ryanMove}. ${victory} won!`));
+    .setTitle(`${msg.member.displayName} threw ${moveArray[playerMove]} and Ryan threw ${moveArray[ryanMove]}. ${victory} wins!`));
   }
 };
