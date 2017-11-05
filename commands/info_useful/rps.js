@@ -32,18 +32,18 @@ module.exports = class RockPaperScissorsCommand extends Command {
     let victory;
     if (playerMove > ryanMove) {
       if (playerMove - ryanMove === 1) {
-        victory = msg.member.displayName;
-      } else victory = 'Ryan';
+        victory = `${msg.member.displayName} wins!`;
+      } else victory = 'Ryan wins!';
     } else if (ryanMove > playerMove) {
       if (ryanMove - playerMove === 1) {
-        victory = 'Ryan';
-      } else victory = msg.member.displayName;
+        victory = 'Ryan wins!';
+      } else victory = `${msg.member.displayName} wins!`;
     } else if (ryanMove === playerMove) {
-      victory = 'Nobody';
+      victory = 'It\'s a tie.';
     }
 
     msg.channel.send(new RichEmbed()
     .setColor(0x007fff)
-    .setTitle(`${msg.member.displayName} threw ${moveArray[playerMove]} and Ryan threw ${moveArray[ryanMove]}. ${victory} wins!`));
+    .setTitle(`${msg.member.displayName} threw ${moveArray[playerMove]} and Ryan threw ${moveArray[ryanMove]}. ${victory}`));
   }
 };
