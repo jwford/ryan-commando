@@ -24,6 +24,7 @@ module.exports = class WikiCommand extends Command {
     wikipedia.page.data(topic,{ content: true },function(response){
       if (response) {
         const parsedPage = parseWikiHTML(response.text['*']);
+        if (parsedPage.length > 2048) return msg.reply('this article\'s intro is too long for me!');
         const embed = new RichEmbed()
         .setTitle(response.title)
         .setDescription(parsedPage.text)
