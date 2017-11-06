@@ -18,7 +18,7 @@ module.exports = class PollCommand extends Command {
           prompt: 'What question would you like to ask?',
           type: 'string',
           validate: question => {
-            if (question.length > 1024) return 'questions have a maximum length of 1024 characters.';
+            if (question.length > 256) return 'questions have a maximum length of 1024 characters.';
             return true;
           }
         },
@@ -45,7 +45,7 @@ module.exports = class PollCommand extends Command {
       answerContent += `:${numconverter.toWords(i + 1)}: ${answers[i]}\n\n`;
     }
 
-    if (answerContent.length > 2048) return msg.reply('your poll responses have too many characters!');
+    if (answerContent.length > 1024) return msg.reply('your poll responses have too many characters!');
 
     msg.channel.send(new RichEmbed()
     .setColor(0x7bff00)
