@@ -9,7 +9,7 @@ module.exports = class SideServersCommand extends Command {
       group: 'tuataria',
       memberName: 'sideservers',
       description: 'Lists Tuataria side servers, with their invite links.',
-      details: 'The links that this command provides don\'t work on iOS at this time. #BlameDiscord.'
+      details: 'The links that this command provides don\'t work on iOS at this time. #BlameDiscord.',
       args: [
         {
           key: 'sideserver',
