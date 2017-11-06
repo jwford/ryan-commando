@@ -49,7 +49,8 @@ module.exports = class PollCommand extends Command {
 
     msg.channel.send(new RichEmbed()
     .setColor(0x7bff00)
-    .addField(args.question, answerContent)).then(async (message) => {
+    .addField(args.question, answerContent)
+    .setFooter(`Poll created by ${msg.author.tag}`)).then(async (message) => {
       for (let i = 0; i < answers.length; i++) {
         await message.react(emojiArray[i]);
       }
