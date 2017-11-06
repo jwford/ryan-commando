@@ -21,7 +21,7 @@ module.exports = class SideServersCommand extends Command {
     });
   }
 
-  run(msg) {
+  run(msg,args) {
     let servers = {
       'Codetaria': 'https://discord.gg/yFKMrvZ',
       'Gamataria': 'https://discord.gg/8uTmbuX',
@@ -35,7 +35,7 @@ module.exports = class SideServersCommand extends Command {
       return msg.reply(args.sideserver in servers ? servers[args.sideserver] : 'I couldn\'t find that server');
     }
     let serverList = [];
-    for (server in servers) {
+    for (let server in servers) {
       serverList.push(`[${server}](${servers[server]})`);
     }
     msg.channel.send(new RichEmbed()
