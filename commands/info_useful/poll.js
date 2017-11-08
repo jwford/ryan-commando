@@ -36,7 +36,7 @@ module.exports = class PollCommand extends Command {
     });
   }
 
-  async run(msg, args) {
+  run(msg, args) {
     let answers = args.answers.split('/');
     let answerContent = '';
     let emojiArray = ['\u0031\u20E3', '\u0032\u20E3', '\u0033\u20E3', '\u0034\u20E3', '\u0035\u20E3'];
@@ -54,6 +54,8 @@ module.exports = class PollCommand extends Command {
       for (let i = 0; i < answers.length; i++) {
         await message.react(emojiArray[i]);
       }
+
+      Object.defineProperty(message, 'poll', {value: true});
     });
   }
 };
