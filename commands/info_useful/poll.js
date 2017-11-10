@@ -1,6 +1,6 @@
 const { Command } = require('discord.js-commando');
-const RichEmbed = require('discord.js').RichEmbed;
 const numconverter = require('number-to-words');
+const ms = require('ms');
 
 module.exports = class PollCommand extends Command {
   constructor(client) {
@@ -9,8 +9,8 @@ module.exports = class PollCommand extends Command {
       group: 'useful',
       memberName: 'poll',
       description: 'Useful command for polls.',
-      details: 'Use this command for polls! You can have a maximum of 5 options. The question you are asking *must* be surrounded by quotes, and each answer should be separated by `/`.',
-      examples: ['`r;poll "What is the best ship name of Ench and Erin?" fuck the steelers/erithan/fuckhead twins`'],
+      details: 'Use this command for polls! You can have a maximum of 5 options. The question you are asking *must* be surrounded by quotes, and each answer should be separated by `/`. The maximum time you can set is 10 minutes.',
+      examples: ['`r;poll "Who\'s the best Green brother?" John/Hank/Dave 5 minutes`'],
       guildOnly: true,
       args: [
         {
@@ -18,7 +18,7 @@ module.exports = class PollCommand extends Command {
           prompt: 'What question would you like to ask?',
           type: 'string',
           validate: question => {
-            if (question.length > 256) return 'questions have a maximum length of 1024 characters.';
+            if (question.length > 256) return 'questions have a maximum length of 256 characters.';
             return true;
           }
         },
@@ -35,10 +35,10 @@ module.exports = class PollCommand extends Command {
         {
           key: 'votetime',
           label: 'time to wait for votes',
-          prompt: 'How long should people be able to vote for? Answer in seconds.',
-          type: 'integer',
+          prompt: 'How long should people be able to vote for? The maximum is 10 minutes.',
+          type: 'string',
           validate: votetime => {
-            if (votetime < 5 || votetime > 600) return 'the time to vote must be between 10 and 600 seconds, inclusive.';
+            if (ms(votetime) > 600000 || typeof ms(votetime) === 'undefined') return 'that\'s not a valid amount of time. Polls have a maximum length of 10 minutes.';
             return true;
           }
         }
@@ -48,44 +48,42 @@ module.exports = class PollCommand extends Command {
 
   run(msg, args) {
     let answers = args.answers.split('/');
-    let answerContent = '';
+    let answerContent = `**${args.question}**`;
+    let votetime = ms(args.votetime);
 
     for (let i = 0; i < answers.length; i++) {
-      answerContent += `:${numconverter.toWords(i + 1)}: ${answers[i]}\n\n`;
+      answerContent += `\n\n:${numconverter.toWords(i + 1)}: ${answers[i]}`;
     }
 
-    if (answerContent.length > 1024) return msg.reply('your poll responses have too many characters!');
+    if (answerContent.length > 2000) return msg.reply('oops, that poll has too many characters to send.');
 
-    msg.channel.send(new RichEmbed()
-    .setColor(0x7bff00)
-    .addField(args.question, answerContent)
-    .addField('Poll Info', `Created by ${msg.author.tag}. Vote by sending \`!vote <option to vote for>\` in this channel. You have ${args.votetime} seconds!`)).then(async message => {
+    msg.channel.send(`${answerContent}\n\nPoll created by ${msg.author.tag}. You have ${args.votetime} to vote on this poll by sending \`!vote <option>\`.`).then(async message => {
       let voteRegex = /!vote [1-5]/i;
       let voteArray = [];
       for (let i = 0; i < answers.length; i++) {
         voteArray.push(0);
       }
 
-      let voteMsgs = await msg.channel.awaitMessages(m => voteRegex.test(m), {max: 100, time: args.votetime * 1000});
+      let voteMsgs = await msg.channel.awaitMessages(m => voteRegex.test(m), {time: votetime});
 
       for (let [id, voteMsg] of voteMsgs) { //eslint-disable-line no-unused-vars
         voteMsg.delete('poll vote');
-        voteMsgs = voteMsgs.filter(m => m.author.id === voteMsg.author.id);
+        let filteredVoteMsgs = voteMsgs.filter(m => m.author.id === voteMsg.author.id);
         let voteNum = parseInt(voteMsg.content.split(' ')[1], 10);
         if (voteNum <= answers.length) {
-          if (voteMsg === voteMsgs.first()) voteArray[voteNum - 1] += 1;
+          if (voteMsg === filteredVoteMsgs.first()) voteArray[voteNum - 1] += 1;
         }
       }
 
       answerContent = answerContent.split('\n\n');
       for (let i = 0; i < answers.length; i++) {
-        answerContent[i] += ` (Votes: ${voteArray[i]})\n\n`;
+        answerContent[i + 1] += ` **(Votes: ${voteArray[i]})**`;
       }
 
-      message.edit(new RichEmbed()
-      .setColor(0x7bff00)
-      .addField(args.question, answerContent)
-      .setFooter(`Poll created by ${msg.author.tag}. Voting has now ended.`));
+      answerContent = `${answerContent.join('\n\n')}\n\nPoll created by ${msg.author.tag}. Voting has ended.`;
+      if (answerContent.length > 2000) return msg.reply('weelll this is embarassing. That poll has too many characters to send. Blame Discord, not me.');
+
+      message.edit(answerContent);
     });
   }
 };
