@@ -31,6 +31,16 @@ module.exports = class PollCommand extends Command {
             if (answers.split('/').length > 5) return 'the maximum number of answers you can have is 5.';
             return true;
           }
+        },
+        {
+          key: 'votetime',
+          label: 'time to wait for votes',
+          prompt: 'How long should people be able to vote for? Answer in seconds.',
+          type: 'integer',
+          validate: votetime => {
+            if (votetime < 5 || votetime > 600) return 'the time to vote must be between 10 and 600 seconds, inclusive.';
+            return true;
+          }
         }
       ]
     });
@@ -39,7 +49,6 @@ module.exports = class PollCommand extends Command {
   run(msg, args) {
     let answers = args.answers.split('/');
     let answerContent = '';
-    let emojiArray = ['\u0031\u20E3', '\u0032\u20E3', '\u0033\u20E3', '\u0034\u20E3', '\u0035\u20E3'];
 
     for (let i = 0; i < answers.length; i++) {
       answerContent += `:${numconverter.toWords(i + 1)}: ${answers[i]}\n\n`;
@@ -50,12 +59,33 @@ module.exports = class PollCommand extends Command {
     msg.channel.send(new RichEmbed()
     .setColor(0x7bff00)
     .addField(args.question, answerContent)
-    .setFooter(`Poll created by ${msg.author.tag}`)).then(async (message) => {
+    .addField('Poll Info', `Created by ${msg.author.tag}. Vote by sending \`!vote <option to vote for>\` in this channel. You have ${args.votetime} seconds!`)).then(async message => {
+      let voteRegex = /!vote [1-5]/i;
+      let voteArray = [];
       for (let i = 0; i < answers.length; i++) {
-        await message.react(emojiArray[i]);
+        voteArray.push(0);
       }
 
-      Object.defineProperty(message, 'poll', {value: true});
+      let voteMsgs = await msg.channel.awaitMessages(m => voteRegex.test(m), {max: 100, time: args.votetime * 1000});
+
+      for (let [id, voteMsg] of voteMsgs) { //eslint-disable-line no-unused-vars
+        voteMsg.delete('poll vote');
+        voteMsgs = voteMsgs.filter(m => m.author.id === voteMsg.author.id);
+        let voteNum = parseInt(voteMsg.content.split(' ')[1], 10);
+        if (voteNum <= answers.length) {
+          if (voteMsg === voteMsgs.first()) voteArray[voteNum - 1] += 1;
+        }
+      }
+
+      answerContent = answerContent.split('\n\n');
+      for (let i = 0; i < answers.length; i++) {
+        answerContent[i] += ` (Votes: ${voteArray[i]})\n\n`;
+      }
+
+      message.edit(new RichEmbed()
+      .setColor(0x7bff00)
+      .addField(args.question, answerContent)
+      .setFooter(`Poll created by ${msg.author.tag}. Voting has now ended.`));
     });
   }
 };
