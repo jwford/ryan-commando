@@ -23,8 +23,9 @@ module.exports = class RateCommand extends Command {
   }
 
   run(msg, args) {
+    var cleanText = msg.cleanContent().replace('r;rate ','');
     msg.channel.send(new RichEmbed()
     .setColor(0x42f4cb)
-    .setTitle(`Ryan gives ${args.thing} a ${Math.floor(Math.random() * 10) + 1} out of 10!`));
+    .setTitle(`Ryan gives ${cleanText} a ${Math.floor(Math.random() * 10) + 1} out of 10!`));
   }
 };
